@@ -1,0 +1,43 @@
+#include<iostream>
+#include<cstdlib>
+#include<ctime>
+using namespace std;
+
+int main() {
+    srand(time(0));
+    int randomNumber=rand()%100 +1;
+    int guess=0;
+    int attempts=3;
+    bool hintUsed=false;
+    cout << "Random Guessing NUmber Game" << endl;
+    cout << "Guess a number between 1 and 100 that i have selected" << endl;
+
+
+    while(guess !=randomNumber) {
+        cout << "Enter your guess : " << endl;
+        cin >> guess;
+        attempts++;
+
+        if(guess<randomNumber) {
+            cout << "Random number is lower than the guessed number" << endl;
+        } else if(guess>randomNumber) {
+            cout << "Random number is higher than guessed number" << endl;
+        } else {
+            cout << "You guessed the correct number" << endl;
+        }
+        if(attempts== 5 && !hintUsed) {
+            char hintChoice;
+            cout << "Would u like a hint?";
+            cin >> hintChoice;
+            if(hintChoice=='y' || hintChoice=='Y') {
+                hintUsed=true;
+                if(randomNumber%2==0) {
+                    cout << "Hint: Number is even" << endl;
+                } else{
+                    cout << "Hint: Number is odd" << endl;
+                }
+            }
+        }
+        return 0;
+    }
+}
