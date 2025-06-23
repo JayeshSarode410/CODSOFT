@@ -1,0 +1,36 @@
+#include<iostream>
+using namespace std;
+
+
+int main() {
+    float num1,num2;
+    char ops;
+
+    cout << "Enter first number" << endl;
+    cin >> num1;
+    cout << "Enter second number" << endl;
+    cin >> num2;
+    cout << "Operation needed to be performed (+, -, *, /): " << endl;
+    cin >> ops;
+
+
+    switch (ops) {
+        case '+':
+        cout << num1+num2 << endl;
+        break;
+        case '-':
+        cout << num1-num2 << endl;
+        break;
+        case '*':
+        cout << num1*num2 << endl; 
+        break;
+        case '/':
+        if(num2 !=0) {
+            cout << num1/num2 << endl;
+        } else {
+            cout << "Error" << endl;
+        }
+        break;
+    }
+    return 0;
+}
