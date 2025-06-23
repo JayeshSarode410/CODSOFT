@@ -1,0 +1,124 @@
+#include <iostream>
+#include <string>
+#include <limits>
+
+using namespace std;
+
+const int SIZE = 3;
+char board[SIZE][SIZE];
+char currentPlayer;
+string player1, player2, currentPlayerName;
+
+void initializeBoard() {
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            board[i][j] = ' ';
+        }
+    }
+    currentPlayer = 'X';
+    currentPlayerName = player1;
+}
+
+void displayBoard() {
+    cout << "\n   0   1   2" << endl;
+    for (int i = 0; i < SIZE; ++i) {
+        cout << i << "  ";
+        for (int j = 0; j < SIZE; ++j) {
+            cout << board[i][j];
+            if (j < SIZE - 1) cout << " | ";
+        }
+        cout << endl;
+        if (i < SIZE - 1) cout << "  ---+---+---" << endl;
+    }
+    cout << endl;
+}
+
+bool isValidMove(int row, int col) {
+    return row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col] == ' ';
+}
+
+void playerMove() {
+    int row, col;
+    cout << currentPlayerName << " (" << currentPlayer << "), enter your move (row and column 0-2): ";
+
+    while (!(cin >> row >> col) || !isValidMove(row, col)) {
+        cout << "Invalid input or move. Please enter valid row and column (0-2): ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+    board[row][col] = currentPlayer;
+}
+
+bool checkWin() {
+    for (int i = 0; i < SIZE; ++i) {
+        if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer)
+            return true;
+        if (board[0][i] == currentPlayer && board[1][i] == currentPlayer && board[2][i] == currentPlayer)
+            return true;
+    }
+    if (board[0][0] == currentPlayer && board[1][1] == currentPlayer && board[2][2] == currentPlayer)
+        return true;
+    if (board[0][2] == currentPlayer && board[1][1] == currentPlayer && board[2][0] == currentPlayer)
+        return true;
+    return false;
+}
+
+bool checkDraw() {
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            if (board[i][j] == ' ') {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+void switchPlayer() {
+    if (currentPlayer == 'X') {
+        currentPlayer = 'O';
+        currentPlayerName = player2;
+    } else {
+        currentPlayer = 'X';
+        currentPlayerName = player1;
+    }
+}
+
+void playGame() {
+    initializeBoard();
+    while (true) {
+        displayBoard();
+        playerMove();
+        if (checkWin()) {
+            displayBoard();
+            cout << "🎉 " << currentPlayerName << " wins the game!" << endl;
+            break;
+        }
+        if (checkDraw()) {
+            displayBoard();
+            cout << "🤝 The game is a draw!" << endl;
+            break;
+        }
+        switchPlayer();
+    }
+}
+
+int main() {
+    cout << "Welcome to Tic-Tac-Toe!" << endl;
+    cout << "Enter the name of player 1 (X): ";
+    getline(cin, player1);
+    cout << "Enter the name of player 2 (O): ";
+    getline(cin, player2);
+
+    char playAgain;
+    do {
+        playGame();
+        cout << "Do you want to play again? (y/n): ";
+        cin >> playAgain;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear input buffer
+    } while (playAgain == 'y' || playAgain == 'Y');
+
+    cout << "Thanks for playing! 🎮" << endl;
+    return 0;
+}
