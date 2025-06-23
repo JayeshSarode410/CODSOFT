@@ -10,7 +10,7 @@ char currentPlayer;
 string player1, player2, currentPlayerName;
 
 void initializeBoard() {
-    for (int i = 0; i < SIZE; ++i) {
+    for (int i = 0; i < SIZE; ++i) 
         for (int j = 0; j < SIZE; ++j) {
             board[i][j] = ' ';
         }
